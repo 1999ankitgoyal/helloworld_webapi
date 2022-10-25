@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: ankitgo-hello
+  labels: 
+    app: ankitgo-hello
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ankitgo-hello
+  template:
+    metadata:
+      labels:
+        app: ankitgo-hello
+    spec:
+      containers:
+        - name: helloworld-api
+          image: ankitgo/helloworld
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ankitgo-hello
+spec:
+  type: LoadBalancer
+  selector:
+    app: ankitgo-hello
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
